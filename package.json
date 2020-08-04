@@ -1,30 +1,26 @@
 {
   "name": "super-simple-pg-dao",
   "description": "Super Simple PG DAO",
-  "version": "0.1.0",
-  "main": "index.js",
+  "version": "0.2.0",
+  "main": "app.js",
   "license": "UNLICENSED",
   "repository": {
     "type": "git",
-    "url": "https://g.34rth.com/wehkamp/authserver.git"
+    "url": "https://github.com/super-simple-pg-dao.git"
   },
   "scripts": {
     "clean": "rm -R dist/*",
-    "build:prod": "babel src --out-dir dist --source-maps",
-    "prod:cluster": "node dist/cluster.js",
-    "prod:server": "node dist/app.js --experimental-modules",
+    "build": "npm run clean && babel src --out-dir dist --source-maps",
+    "serv": "node dist/app.js",
     "start": "set DEBUG=express:* & nodemon --experimental-modules --watch src/app --exec babel-node src/app.js --trace-warnings --experimental-modules --watch src --env=development",
     "test": "mocha --opts ./test/mocha.opts",
-    "prepush": "npm run eslint",
+    "prepush": "npm run lint",
     "lint": "eslint --config .eslintrc src test --cache",
     "lint:fix": "eslint --config .eslintrc src test --fix"
   },
   "dependencies": {
-    "babel-engine-plugin": "^0.3.0",
-    "moment": "^2.27.0",
-    "moment-timezone": "^0.5.31",
     "pg-promise": "^10.5.8",
-    "uuid": "^8.2.0"
+    "moment": "^2.27.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
@@ -39,12 +35,8 @@
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "chai": "^4.2.0",
-    "chai-as-promised": "^7.1.1",
-    "chokidar": "^3.4.1",
-    "debug": "^4.1.1",
     "eslint": "^7.5.0",
     "mocha": "^8.0.1",
-    "mochawesome": "^6.1.1",
     "nodemon": "^2.0.4",
     "sinon": "^9.0.2"
   },
@@ -62,9 +54,9 @@
   ],
   "contributors": [
     {
-      "name": "Titus Rosu",
-      "email": "titus.rosu@34rth.com",
-      "url": "https://www.34rth.com"
+      "name": "cefaci",
+      "email": "25903524+cefaci@users.noreply.github.com",
+      "url": "https://github.com/super-simple-pg-dao"
     }
   ]
 }

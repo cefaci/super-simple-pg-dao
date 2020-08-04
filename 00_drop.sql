@@ -10,6 +10,7 @@ set constraints all deferred;
 DROP TABLE IF EXISTS "user" CASCADE;
 DROP TABLE IF EXISTS "user_credential" CASCADE;
 DROP TABLE IF EXISTS "user_data" CASCADE;
+DROP TABLE IF EXISTS "auth" CASCADE;
 
 -- *****************************************************************************
 

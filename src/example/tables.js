@@ -22,6 +22,7 @@ export const TABLE_USER = {
   'id' : { 'type' : TYPE_INT8, 'null' : false},
   'role_fk' : { 'type' : TYPE_INT4, 'null' : false, default : 0},
   'type_fk' : { 'type' : TYPE_INT4, 'null' : false, default : 0},
+  'name' : { 'type' : TYPE_VARCHAR, 'length' : 255, 'null' : false},
   'comment' : { 'type' : TYPE_VARCHAR, 'length' : 255},
   'optlock' : { 'type' : TYPE_INT8},
   'activated' : { 'type' : TYPE_BOOL, 'null' : false},
@@ -55,5 +56,19 @@ export const TABLE_USER_DATA = {
   'value' : { 'type' : TYPE_JSON},
   'enabled' : { 'type' : TYPE_BOOL, 'null' : false},
   'created' : { 'type' : TYPE_TIMESTAMP, 'null' : false},
+  'updated' : { 'type' : TYPE_TIMESTAMP},
+}
+
+export const TABLE_AUTH = {
+  '_name' : 'auth',
+  '_id' : 'id',
+  '_id_fk' : 'auth_fk',
+  'id' : { 'type' : TYPE_INT8, 'null' : false},
+  'user_fk' : { 'type' : TYPE_INT8, 'null' : false},
+  'auth' : { 'type' : TYPE_VARCHAR, 'length' : 255},
+  'auth_hash' : { 'type' : TYPE_BYTE},
+  'timeout' : { 'type' : TYPE_INT4},
+  'expire' : { 'type' : TYPE_TIMESTAMP},
+  'used' : { 'type' : TYPE_TIMESTAMP},
   'updated' : { 'type' : TYPE_TIMESTAMP},
 }

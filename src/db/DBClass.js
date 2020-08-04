@@ -1,4 +1,4 @@
-import { Preparation, DB } from 'db'
+import { Preparation, DB } from '../example/dao/node_modules/db'
 const {PreparedStatement: PS} = require('pg-promise')
 const QUERIES_PS = {}
 
