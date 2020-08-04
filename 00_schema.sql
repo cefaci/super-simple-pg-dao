@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS "user" (
   "id"        int8 DEFAULT nextval('master_id_seq'::regclass) NOT NULL,
   "role_fk"   int4 DEFAULT 0 NOT NULL, 
   "type_fk"   int4 DEFAULT 0 NOT NULL, 
-  "name"      varchar(255), 
+  "name"      varchar(255) NOT NULL, 
   "comment"   varchar(255), 
   "activated" bool DEFAULT false NOT NULL,
   "enabled"   bool DEFAULT false NOT NULL,
