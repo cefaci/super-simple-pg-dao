@@ -1,0 +1,21 @@
+{
+  "plugins": [
+    ["module-resolver", {
+      "root": [
+        "./src"
+      ]
+    }],
+    ["transform-class-properties",{"spec": true}],
+    ["@babel/plugin-transform-runtime", {
+      "regenerator": true
+    }]
+  ],
+  "presets": [
+    ["@babel/preset-env", {
+      "targets": {
+        "node": "current"
+      }
+    }]
+  ]
+}
+//http://2ality.com/2017/02/babel-preset-env.html

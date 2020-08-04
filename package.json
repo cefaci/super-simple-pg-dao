@@ -1,0 +1,70 @@
+{
+  "name": "super-simple-pg-dao",
+  "description": "Super Simple PG DAO",
+  "version": "0.1.0",
+  "main": "index.js",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://g.34rth.com/wehkamp/authserver.git"
+  },
+  "scripts": {
+    "clean": "rm -R dist/*",
+    "build:prod": "babel src --out-dir dist --source-maps",
+    "prod:cluster": "node dist/cluster.js",
+    "prod:server": "node dist/app.js --experimental-modules",
+    "start": "set DEBUG=express:* & nodemon --experimental-modules --watch src/app --exec babel-node src/app.js --trace-warnings --experimental-modules --watch src --env=development",
+    "test": "mocha --opts ./test/mocha.opts",
+    "prepush": "npm run eslint",
+    "lint": "eslint --config .eslintrc src test --cache",
+    "lint:fix": "eslint --config .eslintrc src test --fix"
+  },
+  "dependencies": {
+    "babel-engine-plugin": "^0.3.0",
+    "moment": "^2.27.0",
+    "moment-timezone": "^0.5.31",
+    "pg-promise": "^10.5.8",
+    "uuid": "^8.2.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.10.5",
+    "@babel/node": "^7.10.5",
+    "@babel/plugin-transform-runtime": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
+    "@babel/register": "^7.10.5",
+    "@babel/runtime": "^7.10.5",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "chokidar": "^3.4.1",
+    "debug": "^4.1.1",
+    "eslint": "^7.5.0",
+    "mocha": "^8.0.1",
+    "mochawesome": "^6.1.1",
+    "nodemon": "^2.0.4",
+    "sinon": "^9.0.2"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "eslintIgnore": [
+    "/dist/*",
+    "/node_modules/*",
+    "/log/*"
+  ],
+  "modulePaths": [
+    "<rootDir>/src",
+    "<rootDir>/node_modules"
+  ],
+  "contributors": [
+    {
+      "name": "Titus Rosu",
+      "email": "titus.rosu@34rth.com",
+      "url": "https://www.34rth.com"
+    }
+  ]
+}
