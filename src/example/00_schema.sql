@@ -4,15 +4,10 @@ BEGIN;
 -- CREATE DATABASE "test" WITH OWNER = test ENCODING = 'UTF8';
 
 -- *****************************************************************************
--- SEQUENCE FOR master data:
--- *****************************************************************************
-CREATE SEQUENCE "master_id_seq" INCREMENT BY 1;
-
--- *****************************************************************************
 -- USER
 -- *****************************************************************************
 CREATE TABLE IF NOT EXISTS "user" (
-  "id"        int8 DEFAULT nextval('master_id_seq'::regclass) NOT NULL,
+  "id"        bigserial NOT NULL, 
   "role_fk"   int4 DEFAULT 0 NOT NULL, 
   "type_fk"   int4 DEFAULT 0 NOT NULL, 
   "name"      varchar(255) NOT NULL, 
@@ -77,7 +72,8 @@ CREATE        INDEX "idx_user_data_enabled" ON "user_data" USING hash  ("enabled
 -- *****************************************************************************
 CREATE TABLE IF NOT EXISTS "auth" (
   "id"        bigserial NOT NULL,
-  "user_fk"     int8 NOT NULL, 
+  "user_fk"   int8 NOT NULL, 
+  "user_credential_fk"   int8 NOT NULL, 
   "auth"      varchar(255) NOT NULL,
   "auth_hash" bytea NOT NULL,
   "timeout"   int4 NULL,
@@ -85,9 +81,11 @@ CREATE TABLE IF NOT EXISTS "auth" (
   "used"      timestamp(6) NULL,
   "updated"   timestamp(6) DEFAULT now(),
   CONSTRAINT "idc_auth_pkey" PRIMARY KEY ("id"),
-  CONSTRAINT "idc_auth_user_fk" FOREIGN KEY ("user_fk") REFERENCES "user" ("id") ON DELETE CASCADE ON UPDATE NO ACTION DEFERRABLE INITIALLY DEFERRED
+  CONSTRAINT "idc_auth_user_fk" FOREIGN KEY ("user_fk") REFERENCES "user" ("id") ON DELETE CASCADE ON UPDATE NO ACTION DEFERRABLE INITIALLY DEFERRED,
+  CONSTRAINT "idc_auth_user_credential_fk" FOREIGN KEY ("user_credential_fk") REFERENCES "user_credential" ("id") ON DELETE CASCADE ON UPDATE NO ACTION DEFERRABLE INITIALLY DEFERRED
 );
 CREATE        INDEX "idx_auth_user_fk"   ON "auth" USING btree ("user_fk");
+CREATE        INDEX "idx_auth_user_credential_fk"   ON "auth" USING btree ("user_credential_fk");
 CREATE        INDEX "idx_auth_auth"      ON "auth" USING hash ("auth")      WHERE "auth"      IS NOT NULL AND "used" IS NULL;
 CREATE        INDEX "idx_auth_auth_hash" ON "auth" USING hash ("auth_hash") WHERE "auth_hash" IS NOT NULL AND "used" IS NULL;
 CREATE        INDEX "idx_auth_expire"    ON "auth" USING hash ("expire");

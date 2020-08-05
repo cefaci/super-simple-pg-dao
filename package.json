@@ -12,7 +12,7 @@
     "clean": "rm -R dist/*",
     "build": "npm run clean && babel src --out-dir dist --source-maps",
     "serv": "node dist/app.js",
-    "start": "set DEBUG=express:* & nodemon --experimental-modules --watch src/app --exec babel-node src/app.js --trace-warnings --experimental-modules --watch src --env=development",
+    "start": "nodemon --experimental-modules --watch src/app --exec babel-node src/app.js --trace-warnings --experimental-modules --watch src --env=development",
     "test": "mocha --opts ./test/mocha.opts",
     "prepush": "npm run lint",
     "lint": "eslint --config .eslintrc src test --cache",

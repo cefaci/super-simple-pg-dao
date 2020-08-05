@@ -24,7 +24,6 @@ export const TABLE_USER = {
   'type_fk' : { 'type' : TYPE_INT4, 'null' : false, default : 0},
   'name' : { 'type' : TYPE_VARCHAR, 'length' : 255, 'null' : false},
   'comment' : { 'type' : TYPE_VARCHAR, 'length' : 255},
-  'optlock' : { 'type' : TYPE_INT8},
   'activated' : { 'type' : TYPE_BOOL, 'null' : false},
   'enabled' : { 'type' : TYPE_BOOL, 'null' : false},
   'created' : { 'type' : TYPE_TIMESTAMP, 'null' : false},
@@ -34,6 +33,7 @@ export const TABLE_USER = {
 export const TABLE_USER_CREDENTIAL = {
   '_name' : 'user_credential',
   '_id' : 'id',
+  '_id_fk' : 'user_credential_fk',
   'id' : { 'type' : TYPE_INT8, 'null' : false},
   'user_fk' : { 'type' : TYPE_INT8, 'null' : false},
   'type_fk' : { 'type' : TYPE_INT4, 'null' : false, default : 0},
@@ -65,6 +65,7 @@ export const TABLE_AUTH = {
   '_id_fk' : 'auth_fk',
   'id' : { 'type' : TYPE_INT8, 'null' : false},
   'user_fk' : { 'type' : TYPE_INT8, 'null' : false},
+  'user_credential_fk' : { 'type' : TYPE_INT8, 'null' : false},
   'auth' : { 'type' : TYPE_VARCHAR, 'length' : 255},
   'auth_hash' : { 'type' : TYPE_BYTE},
   'timeout' : { 'type' : TYPE_INT4},

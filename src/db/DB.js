@@ -2,13 +2,16 @@
  * Copyright StarData GmbH 
  * 2016-2020
  */
-/* eslint-disable indent */
-import { pgp, db, Preparation} from './index'
+import { pgp, db} from './init'
+import Preparation from './Preparation'
 import Sql from './Sql'
 
 export default class DB {
   constructor(){}
 
+  static test(){
+    console.log('DB: pgp and db imported?', !pgp ? false : true, !db ? false : true)
+  }
   static all(t, options, values) { return t.any(options, values) }
   static any(t, options, values) { return t.any(options, values) }
   static one(t, options, values) { return t.oneOrNone(options, values) }
@@ -48,14 +51,14 @@ export default class DB {
     const start = process.hrtime.bigint()
     // console.log('\tDB->query():', query, options)
     return await query(db, options, values)
-    .then(data => {
-      DB.timeEnd('\tDB->query():', options, start)
-      if(!data)
+      .then(data => {
+        DB.timeEnd('\tDB->query():', options, start)
+        if(!data)
         {console.log('\tDB->query():', data, options)}
-      return tables ? Preparation.result_object(data, tables): data // Promise.resolve(tables ? Preparation.result_object(data, tables): data)
-    }).catch(error => {
-      console.error('\tDB->query():', error); return Promise.reject(error)
-    })
+        return tables ? Preparation.result_object(data, tables): data // Promise.resolve(tables ? Preparation.result_object(data, tables): data)
+      }).catch(error => {
+        console.error('\tDB->query():', error); return Promise.reject(error)
+      })
   }
 
   /**
@@ -168,7 +171,7 @@ export default class DB {
 
       let sql = options[i].sql
       let query = typeof sql === 'undefined' ? DB.any : DB[sql]
-      // console.log('queryTxList(): element:', option.table._name, option_before, option.values)
+      // console.log('queryArray(): element:', option.table._name, option_before, option.values)
       element = await query(t, option, option.values)
 
       if(element){

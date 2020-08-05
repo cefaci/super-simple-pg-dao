@@ -1,11 +1,10 @@
-import AppDAO from 'db/AppDAO'
-import UserDAO from 'db/UserDAO'
-import AppVersion from 'db/class/AppVersion'
-import User from 'db/class/User'
-import App from 'db/class/App'
-import Security from 'common/Security'
+import Auth from 'example/dao/Auth'
+import User from 'example/dao/User'
+import UserData from 'example/dao/UserData'
+import UserCredential from 'example/dao/UserCredential'
+import Helper from 'example/Helper'
 
-import { pgp } from 'db/index'
+import { pgp } from 'example/index'
 
 const QueryResultError = pgp.errors.QueryResultError
 

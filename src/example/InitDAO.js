@@ -1,11 +1,16 @@
 import User from 'example/dao/User'
+import Auth from 'example/dao/Auth'
 // import UserData from 'example/dao/UserData'
 // import UserCredential from 'example/dao/UserCredential'
+import Helper from 'example/Helper'
 
-import crypto from 'crypto'
+import { pgp } from '.'
+import { DB } from 'db'
 
-import { DB, pgp } from 'db'
-
+const SQL_DROP = '00_drop.sql'
+const SQL_SCHEMA = '00_schema.sql'
+const CONFIG_DB = './db.json'
+const TYPE_USER_INIT = 1
 // const QueryResultError = pgp.errors.QueryResultError
 const QueryFile = pgp.QueryFile
 const path = require('path')
@@ -14,36 +19,43 @@ class InitDAOClass {
 
   constructor(){}
 
-  createFirstUser = async(value, type_hash_fk = 1, type_key_fk = 1) => {
+  createFirstUser = async(init, type_key_fk = 1) => {
     try {
-      let email = Security.hash('sha512', value.email).toString('hex')
-      let email_bytes = Buffer.from(email, 'hex')
-
-      let salt = Security.sha256(Buffer.concat([Security.createRandom(32), Security.createRandom(32)], 64))
-      let key = Security.createKey(type_key_fk, value.password, salt) // PBKDF2_SHA512_10000_64
+      // console.log(init)
+      let salt = Helper.getHash(Buffer.concat([Helper.createRandom(32), Helper.createRandom(32)], 64))
+      let key = Helper.createKey(init.password, salt) // PBKDF2_SHA512_10000_64
 
       let data = {
         // USER
         user_credential: {
           key : key,
-          type_fk : 213,
+          type_fk : TYPE_USER_INIT,
           type_key_fk : type_key_fk, // PBKDF2_SHA512_10000_64
           enabled : true,
+        }, 
+        user_data: {
+          value : {'hello' : 'hello', 'user' : 'yes'},
+          type_fk : TYPE_USER_INIT,
+          enabled : true,
         },  
+        auth : {},
         user : {
-          type_fk : 99, // SERVER
+          name : init.username,
+          type_fk : TYPE_USER_INIT, // SERVER
           role_fk : 90, // SUPERADMIN
           activated : true, 
           enabled : true,
           comment : 'server',
         },
-      }
+      } 
 
       // queries, options
       let result_user = User.prepareInsertQueries(data)
+      for(let i = 0; i < 100; i++){
+        result_user.push(Auth.prepareInsert())
+      }
 
       let queries  = [...result_user]
-      // console.log(values)
       return await DB.queryTxBatchStepWithReturnFK(queries)
       // return await User.create(data)
     } catch (error){
@@ -53,8 +65,7 @@ class InitDAOClass {
   }
 
   sql(file) {
-    const fullPath = path.join(__dirname, file)
-    return new QueryFile(fullPath, {minify: true})
+    return new QueryFile(path.join(__dirname, file), {minify: true})
   }
 
   catchOrInitDB = async(error) => {
@@ -64,12 +75,13 @@ class InitDAOClass {
     // EMPTY DB
     } else if(error && error.code === '42P01'){
       console.error('InitDAO->catchAndInitDB(): ERROR: No database! -> Creating DB!') 
-      let drop = this.sql('../../00_drop.sql')
-      let schema = this.sql('../../00_schema.sql')
+      
+      //let drop = this.sql(SQL_DROP)
+      let schema = this.sql(SQL_SCHEMA)
       try{
         let queries = []
         queries.push('ABORT;')
-        queries.push(drop)
+        // queries.push(drop)
         queries.push(schema)
 
         await DB.queryTxBatch(queries) 
@@ -89,7 +101,7 @@ class InitDAOClass {
     let i = 0
     while (i < 10) {
       try{
-        data = await User.read({type_fk : 99}, 2)
+        data = await User.read({type_fk : TYPE_USER_INIT}, 2)
         break
       } catch(error) { 
         if(error === 'Connection terminated due to connection timeout'){
@@ -99,18 +111,22 @@ class InitDAOClass {
           break
         }
       }
-    } 
+    }
     // process.exit(0)
     try{
       if(!data ||(data && data.length <= 0)){
-        let initJson = require('../../config/init.json')
-        data = await this.createFirstUser(initJson, data_config).catch(error => { console.error('InitDAO->init(): ERROR:', error) })
+        console.log('NO SYSTEMUSER in DB - creating') 
+        let config = require(CONFIG_DB)
+        data = await this.createFirstUser(config.init)
+          .catch(error => { 
+            console.error('InitDAO->init(): ERROR:', error) 
+          })
 
         if(data){ 
           console.log('Creating SYSTEMUSER success', data)
+        } else { 
+          console.log('NO SYSTEMUSER in DB', data) 
         }
-        else { console.log('NO SYSTEMUSER in DB', data) }
-        initJson = null
       } 
     } catch(error) {
       console.error('InitDAO->init(): ERROR: ', error)

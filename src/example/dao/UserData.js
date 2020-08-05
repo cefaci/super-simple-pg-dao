@@ -1,6 +1,6 @@
 import { 
   TABLE_USER_DATA
-} from './tables'
+} from '../tables'
 
 import { DBClass } from 'db'
 

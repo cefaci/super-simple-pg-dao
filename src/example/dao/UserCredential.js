@@ -1,17 +1,18 @@
 import { 
   TABLE_USER_CREDENTIAL,
   TABLE_USER,
-} from './tables'
+} from '../tables'
 
 import crypto from 'crypto'
 import { Preparation, DB, DBClass } from 'db'
+import Helper from 'example/Helper'
 
 class UserCredentialClass extends DBClass {
   constructor(){ super(TABLE_USER_CREDENTIAL) }
 
   prepareInsert(data = {}, default_value = true){
     if(typeof data.salt  === 'undefined'){
-      data.salt = crypto.randomFillSync(Buffer.alloc(32))
+      data.salt = Helper.getHash(Buffer.concat([Helper.createRandom(32), Helper.createRandom(32)], 64))
     }
     return super.prepareInsert(data, default_value)
   }

@@ -14,8 +14,6 @@ DROP TABLE IF EXISTS "auth" CASCADE;
 
 -- *****************************************************************************
 
-DROP SEQUENCE IF EXISTS "master_id_seq";
-
 COMMIT;
 
 BEGIN;

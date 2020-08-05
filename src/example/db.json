@@ -13,5 +13,9 @@
   },
   "timeout" : {
     "connection" : 5000
+  },
+  "init" : {
+    "username" : "test",
+    "password" : "test"
   }
 }
