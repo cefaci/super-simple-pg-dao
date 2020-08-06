@@ -9,14 +9,17 @@
     "url": "https://github.com/super-simple-pg-dao.git"
   },
   "scripts": {
-    "clean": "rm -R dist/*",
-    "build": "npm run clean && babel lib --out-dir dist --source-maps",
-    "serv": "node dist/app.js",
+    "clean": "rm -R cjs/*.js && rm -R cjs/*.map && rm -R cjs/packed",
+    "build": "npm run clean && babel lib --out-dir cjs --source-maps",
     "start": "nodemon --experimental-modules --watch examples/app --exec babel-node examples/app.js --trace-warnings --experimental-modules --watch lib --watch examples --env=development",
-    "test": "mocha --opts ./test/mocha.opts",
+    "test_mocha": "mocha --opts ./test/mocha.opts",
     "prepush": "npm run lint",
+    "prepublish": "npm run lint && npm run test && npm run build",
     "lint": "eslint --config .eslintrc lib test --cache",
-    "lint:fix": "eslint --config .eslintrc lib test --fix"
+    "lint:fix": "eslint --config .eslintrc lib test --fix",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.config.json",
+    "coverage": "npm run test --coverage",
+    "coveralls": "npm run coverage && cat ./test/coverage/lcov.info | coveralls",
   },
   "dependencies": {
     "pg-promise": "^10.5.8"
@@ -34,6 +37,7 @@
     "babel-plugin-module-resolver": "^4.0.0",
     "chai": "^4.2.0",
     "eslint": "^7.5.0",
+    "jest": "^26.2.2",
     "mocha": "^8.0.1",
     "moment": "^2.27.0",
     "nodemon": "^2.0.4",
