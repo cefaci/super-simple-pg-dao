@@ -171,7 +171,7 @@ let data = data = await User.delete({_where : {id : 1, name: 'test'}})
 
 ## Query
 You can query as you want, the examples here are prepared statements, which are cached in `DBClass` (be aware with same names!).
-`Preparation.select_object` can build your `SELECT` w/ or w/o `FROM` part as you need. It can null or set to differnet values your columns, e.g. hide keys. For complex queries you need to set `rowMode : 'array'` from [node-postgres] otherwise your same name columns will be overwritten from the return object. Check out the `examples` and `test`.
+`Preparation.select_object` can build your `SELECT` w/ or w/o `FROM` part as you need. It can null or set to different values (e.g. true or 1) for your columns, e.g. to hide keys. For complex queries you need to set `rowMode : 'array'` from [node-postgres] otherwise your same name columns will be overwritten from the return object. Check out the `examples` and `test`.
 
 
 ```javascript
@@ -190,8 +190,8 @@ if (!query){
     name : nameQuery,
     text : 'SELECT u.id, u.name, c.id as c_id, c.salt, c.expire, c.created, c.updated '+
            'FROM "' + TABLE_USER._name + '" as u, "' + TABLE_USER_CREDENTIAL._name + '" as c '+
-           'WHERE u.id = c.user_fk AND u.name = $1 AND u.type_fk = $2 '+
-           ' AND u.enabled IS TRUE AND u.activated IS TRUE AND c.enabled IS TRUE ORDER BY c.expire DESC NULLS LAST LIMIT $3',
+           'WHERE u.id = c.user_fk AND u.name = $1 AND u.type_fk = $2 AND '+
+           '      u.enabled IS TRUE AND u.activated IS TRUE AND c.enabled IS TRUE ORDER BY c.expire DESC NULLS LAST LIMIT $3',
   })
 }
 let data = await DB.query(DB.one, query, [name, type_id, limit]) 
@@ -212,8 +212,8 @@ if (!query){
     // null the key to not show it
     text : Preparation.select_object({'u':TABLE_USER,'c':TABLE_USER_CREDENTIAL}, {'c': {key: 'null'}}, false) + 
            'FROM "' + TABLE_USER._name + '" as u, "' + TABLE_USER_CREDENTIAL._name + '" as c TABLESAMPLE SYSTEM($1)'+
-           'WHERE u.id = c.user_fk AND u.name = $2 AND u.type_fk = $3 '+
-           ' AND u.enabled IS TRUE AND u.activated IS TRUE AND c.enabled IS TRUE ORDER BY c.expire DESC NULLS LAST LIMIT $4',
+           'WHERE u.id = c.user_fk AND u.name = $2 AND u.type_fk = $3 AND '+
+           '      u.enabled IS TRUE AND u.activated IS TRUE AND c.enabled IS TRUE ORDER BY c.expire DESC NULLS LAST LIMIT $4',
     rowMode : 'array',
   })
 }
@@ -232,8 +232,8 @@ if (!query){
   query = User.createQuery(nameQuery, {
     name : nameQuery,
     text : Preparation.select_object({'u':TABLE_USER,'c':TABLE_USER_CREDENTIAL, 'd': TABLE_USER_DATA}, {}, true) + 
-           'WHERE u.id = c.user_fk AND u.id = d.user_fk AND u.name = $1 AND u.type_fk = $2 '+
-           ' AND u.enabled IS TRUE AND u.activated IS TRUE AND c.enabled IS TRUE ORDER BY c.expire DESC NULLS LAST LIMIT $3',
+           'WHERE u.id = c.user_fk AND u.id = d.user_fk AND u.name = $1 AND u.type_fk = $2 AND '+
+           '      u.enabled IS TRUE AND u.activated IS TRUE AND c.enabled IS TRUE ORDER BY c.expire DESC NULLS LAST LIMIT $3',
     rowMode : 'array',
   })
 }
