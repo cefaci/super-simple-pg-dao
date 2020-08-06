@@ -129,10 +129,10 @@ await db.task('read10timesTask', async t => {
   // ...
 })
 // more complex
-// SELECT * FROM user WHERE id = ANY([0,1]::bigint[]) OR (id = 1 OR type_fk = 3) AND type_fk = 1;
+// SELECT * FROM user WHERE id = ANY([0,1]::bigint[]) OR (id = 1 AND type_fk = 3) AND type_fk = 1;
 data = await User.read({id: {v: [0,1], t:'::bigint[])', c: '= ANY (', 'OR': {id: 1, type_fk: 3}}, type_fk: 1})
 // more more complex
-// SELECT * FROM user WHERE id = ANY([0,1]::bigint[]) OR ((id = 1 OR type_fk = 3) OR type_fk = 3) AND type_fk = 1;
+// SELECT * FROM user WHERE id = ANY([0,1]::bigint[]) OR ((id = 1 OR (id = 1 AND type_fk = 3)) OR type_fk = 3) AND type_fk = 1;
 data = await User.read({id: {v: [0,1], t:'::bigint[])', c: '= ANY (', 'OR': {id: {v: 1, c: '=', 'OR': {id: 1, type_fk: 3}}, type_fk: 3}}, type_fk: 3})
     
 ```
