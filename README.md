@@ -82,9 +82,9 @@ import {
 
 // TABLE_USER
 export const TABLE_USER = {
-  '_name' : 'user',
-  '_id' : 'id',
-  '_id_fk' : 'user_fk',
+  '_name' : 'user', // your table name - MANDATORY
+  '_id' : 'id', // your primary key - MANDATORY
+  '_id_fk' : 'user_fk',// your foreign key name in the other tables, for batch insert "cascade" - OPTIONAL
   'id' : { 'type' : TYPE_INT8, 'null' : false},
   'role_fk' : { 'type' : TYPE_INT4, 'null' : false, default : 0},
   'type_fk' : { 'type' : TYPE_INT4, 'null' : false, default : 0},
