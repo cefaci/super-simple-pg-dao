@@ -3,7 +3,7 @@
   "description": "Super Simple PG DAO",
   "version": "0.2.0",
   "main": "app.js",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/super-simple-pg-dao.git"
@@ -26,14 +26,12 @@
     "@babel/cli": "^7.10.5",
     "@babel/core": "^7.10.5",
     "@babel/node": "^7.10.5",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/plugin-transform-runtime": "^7.10.5",
     "@babel/preset-env": "^7.10.4",
     "@babel/register": "^7.10.5",
     "@babel/runtime": "^7.10.5",
-    "babel-eslint": "^10.1.0",
-    "babel-loader": "^8.1.0",
     "babel-plugin-module-resolver": "^4.0.0",
-    "babel-plugin-transform-class-properties": "^6.24.1",
     "chai": "^4.2.0",
     "eslint": "^7.5.0",
     "mocha": "^8.0.1",
@@ -49,7 +47,8 @@
     "/log/*"
   ],
   "modulePaths": [
-    "<rootDir>/src",
+    "<rootDir>/lib",
+    "<rootDir>/examples",
     "<rootDir>/node_modules"
   ],
   "contributors": [

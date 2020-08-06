@@ -1,14 +1,12 @@
-const exported = {
+const exported =  {
   pgp : null,
   db : null,
-  init : function(_pgp, _db) {
-    if(!exported.pgp && !exported.db){
-      exported.pgp = _pgp
-      exported.db = _db
+  init : function(options = {}){
+    if(options.pgp && options.db){
+      exported.pgp = options.pgp
+      exported.db = options.db
     }
-    // console.log('INIT DB', exported.db)
     return exported
   }
 }
-
 module.exports = exports = exported

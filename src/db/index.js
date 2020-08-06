@@ -16,4 +16,4 @@ export {
   Sql,
   init_default as init,
 }
-exports.default = init_default
+module.exports.default = init.init

@@ -65,7 +65,7 @@ const db_check = async(db) => {
 }
 db_init(pgp)
 db_check(db)
-require('db').init(pgp, db)
+require('db').init({pgp, db})
 
 // let {DB} = require('db')
 import {DB} from 'db'
