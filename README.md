@@ -14,7 +14,7 @@ Super Simple PG DAO
   - [Update](#Update)
   - [Delete](#Delete)
   - [Query](#Query)
-  - [Batch insert cascade](#batch-insert-cascade)
+  - [Batch insert "cascade"](#batch-insert-cascade)
 * [TODOs](#totos)
 
 # About
@@ -240,7 +240,7 @@ if (!query){
 let data = await DB.query(DB.any, query, [name, type_id, limit], [TABLE_USER, TABLE_USER_CREDENTIAL, TABLE_USER_DATA]) 
 ```
 
-## Batch insert cascade
+## Batch insert "cascade"
 The foreign keys are overwritten from `tables.js` set by the field `_id_fk`.
 Then use the method `DB.queryTxBatchStepWithReturnFK()`. The method `DB.queryTxBatch()` doesn't use this function and concatenates with `pgp.helpers.concat()`
 
