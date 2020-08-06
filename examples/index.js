@@ -65,10 +65,10 @@ const db_check = async(db) => {
 }
 db_init(pgp)
 db_check(db)
-require('db').init({pgp, db})
+require('super-simple-pg-dao').init({pgp, db})
 
 // let {DB} = require('db')
-import {DB} from 'db'
+import {DB} from 'super-simple-pg-dao'
 DB.test()
 
 export { 

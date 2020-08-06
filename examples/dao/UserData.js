@@ -2,7 +2,7 @@ import {
   TABLE_USER_DATA
 } from '../tables'
 
-import { DBClass } from 'db'
+import { DBClass } from 'super-simple-pg-dao'
 
 class UserDataClass extends DBClass {
   constructor(){ super(TABLE_USER_DATA) }

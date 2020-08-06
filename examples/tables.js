@@ -10,7 +10,7 @@ import {
   TYPE_VARCHAR,
   // TYPE_TEXT,
   // TYPE_CHAR,
-  TYPE_JSON} from 'db/Constants'
+  TYPE_JSON} from 'super-simple-pg-dao'
 
 // -----------------------------------------
 // TABLES

@@ -2,10 +2,10 @@ import {
   TABLE_AUTH
 } from '../tables'
 
-import { DBClass } from 'db'
+import { DBClass } from 'super-simple-pg-dao'
 import moment from 'moment'
 export const DATETIME_FORMAT = 'YYYY-MM-DD HH:mm:ss.SSS'
-import Helper from 'example/Helper'
+import Helper from 'Helper'
 
 class AuthClass extends DBClass {
   constructor(){ super(TABLE_AUTH) }

@@ -1,6 +1,5 @@
 // ----------------------------------------------------------------------
-import db from 'example'
-import InitDAO from 'example/InitDAO'
+import InitDAO from './InitDAO'
 
 export async function init(){
   await InitDAO.init()

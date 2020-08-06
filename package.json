@@ -10,21 +10,21 @@
   },
   "scripts": {
     "clean": "rm -R dist/*",
-    "build": "npm run clean && babel src --out-dir dist --source-maps",
+    "build": "npm run clean && babel lib --out-dir dist --source-maps",
     "serv": "node dist/app.js",
-    "start": "nodemon --experimental-modules --watch src/app --exec babel-node src/app.js --trace-warnings --experimental-modules --watch src --env=development",
+    "start": "nodemon --experimental-modules --watch examples/app --exec babel-node examples/app.js --trace-warnings --experimental-modules --watch lib --watch examples --env=development",
     "test": "mocha --opts ./test/mocha.opts",
     "prepush": "npm run lint",
-    "lint": "eslint --config .eslintrc src test --cache",
-    "lint:fix": "eslint --config .eslintrc src test --fix"
+    "lint": "eslint --config .eslintrc lib test --cache",
+    "lint:fix": "eslint --config .eslintrc lib test --fix"
   },
   "dependencies": {
-    "pg-promise": "^10.5.8",
-    "moment": "^2.27.0"
+    "pg-promise": "^10.5.8"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
     "@babel/core": "^7.10.5",
+    "@babel/eslint-parser": "^7.11.0",
     "@babel/node": "^7.10.5",
     "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/plugin-transform-runtime": "^7.10.5",
@@ -35,11 +35,12 @@
     "chai": "^4.2.0",
     "eslint": "^7.5.0",
     "mocha": "^8.0.1",
+    "moment": "^2.27.0",
     "nodemon": "^2.0.4",
     "sinon": "^9.0.2"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=10.0.0"
   },
   "eslintIgnore": [
     "/dist/*",
@@ -48,8 +49,7 @@
   ],
   "modulePaths": [
     "<rootDir>/lib",
-    "<rootDir>/examples",
-    "<rootDir>/node_modules"
+    "<rootDir>/examples"
   ],
   "contributors": [
     {

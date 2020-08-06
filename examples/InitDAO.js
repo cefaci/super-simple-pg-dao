@@ -1,11 +1,11 @@
-import User from 'example/dao/User'
-import Auth from 'example/dao/Auth'
+import User from 'dao/User'
+import Auth from 'dao/Auth'
 // import UserData from 'example/dao/UserData'
 // import UserCredential from 'example/dao/UserCredential'
-import Helper from 'example/Helper'
+import Helper from 'Helper'
 
 import { pgp } from '.'
-import { DB } from 'db'
+import { DB } from 'super-simple-pg-dao'
 
 const SQL_DROP = '00_drop.sql'
 const SQL_SCHEMA = '00_schema.sql'

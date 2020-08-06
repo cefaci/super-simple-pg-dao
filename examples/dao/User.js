@@ -5,7 +5,7 @@ import {
 import UserCredential from './UserCredential'
 import UserData from './UserData'
 import Auth from './Auth'
-import { DBClass } from 'db'
+import { DBClass } from 'super-simple-pg-dao'
 
 class UserClass extends DBClass {
   constructor(){ super(TABLE_USER) }

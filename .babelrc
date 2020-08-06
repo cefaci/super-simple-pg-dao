@@ -2,7 +2,8 @@
   "plugins": [
     ["module-resolver", {
       "root": [
-        "./src"
+        "./examples",
+        "./lib"
       ]
     }],
     ["@babel/plugin-proposal-class-properties",{"spec": true}],

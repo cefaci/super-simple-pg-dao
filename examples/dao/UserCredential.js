@@ -4,8 +4,8 @@ import {
 } from '../tables'
 
 import crypto from 'crypto'
-import { Preparation, DB, DBClass } from 'db'
-import Helper from 'example/Helper'
+import { Preparation, DB, DBClass } from 'super-simple-pg-dao'
+import Helper from 'Helper'
 
 class UserCredentialClass extends DBClass {
   constructor(){ super(TABLE_USER_CREDENTIAL) }
