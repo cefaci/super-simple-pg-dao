@@ -13,7 +13,7 @@ Install `npm install super-simple-pg-dao --save`
 
 To get started check out the `examples/` folder. 
 
-# Init 
+## Init 
 Init the `pg-promise` library as documented, e.g. (check out the `examples/index.js`)
 ```javascript
 const initOptions = { 
@@ -31,7 +31,7 @@ require('super-simple-pg-dao').init({pgp, db})
 import {DB} from 'super-simple-pg-dao'
 DB.test()
 ```
-# Init options for pg-promise
+## Init options for pg-promise
 Some options I use (check out the `examples/index.js`):
 ```javascript
 // PostgreSQL jsonb data is converted to a string
@@ -48,31 +48,61 @@ pgp.pg.types.setTypeParser(1016, a => parseBigIntArray(a).map(BigInt))
 // https://github.com/knex/knex/issues/2094
 pgp.pg.types.setTypeParser(1114, a => a && new Date(a + '+00')) // TIMESTAMP_OID
 ```
+# Usage
+## tables.js
+Create a a file were you store the table description e.g. `tables.js`
+
+```javascript
+import {
+  TYPE_BOOL,
+  TYPE_BYTE,
+  TYPE_INT2,
+  TYPE_INT4,
+  TYPE_INT8,
+  TYPE_FLOAT4,
+  TYPE_FLOAT8,
+  TYPE_TIMESTAMP,
+  TYPE_VARCHAR,
+  TYPE_TEXT,
+  TYPE_CHAR,
+  TYPE_JSON} from 'super-simple-pg-dao'
+
+
+// TABLE_USER
+export const TABLE_USER = {
+  '_name' : 'user',
+  '_id' : 'id',
+  '_id_fk' : 'user_fk',
+  'id' : { 'type' : TYPE_INT8, 'null' : false},
+  'role_fk' : { 'type' : TYPE_INT4, 'null' : false, default : 0},
+  'type_fk' : { 'type' : TYPE_INT4, 'null' : false, default : 0},
+  'name' : { 'type' : TYPE_VARCHAR, 'length' : 255, 'null' : false},
+  'comment' : { 'type' : TYPE_VARCHAR, 'length' : 255},
+  'activated' : { 'type' : TYPE_BOOL, 'null' : false},
+  'enabled' : { 'type' : TYPE_BOOL, 'null' : false},
+  'created' : { 'type' : TYPE_TIMESTAMP, 'null' : false},
+  'updated' : { 'type' : TYPE_TIMESTAMP},
+}
+```
+and the DAO class
+```javascript
+import { 
+  TABLE_USER
+} from '../tables'
+
+import { DBClass } from 'super-simple-pg-dao'
+
+class UserClass extends DBClass {
+  constructor(){ super(TABLE_USER) }
+}
+const User = new UserClass()
+export default User
+```
+That's it!
 
 # TODOs
 - Read the database tables meta data for creating `tables.js` 
 - Read the database tables for creating `dao/*.js` class files.
-
-
-```SQL
-columns:
-  `allow` int(1) DEFAULT NULL COMMENT '0: deny, 1: allow',
-  `ipaddr` varchar(60) DEFAULT NULL COMMENT 'IpAddress',
-  `username` varchar(100) DEFAULT NULL COMMENT 'Username',
-  `clientid` varchar(100) DEFAULT NULL COMMENT 'ClientId',
-  `access` int(2) NOT NULL COMMENT '1: subscribe, 2: publish, 3: pubsub',
-  `topic` varchar(100) NOT NULL DEFAULT '' COMMENT 'Topic Filter',
-  
-  INSERT INTO mqtt_acl (id, allow, ipaddr, username, clientid, access, topic)
-VALUES
-    (1,1,NULL,'$all',NULL,2,'#'),
-    (2,0,NULL,'$all',NULL,1,'$SYS/#'),
-    (3,0,NULL,'$all',NULL,1,'eq #'),
-    (5,1,'127.0.0.1',NULL,NULL,2,'$SYS/#'),
-    (6,1,'127.0.0.1',NULL,NULL,2,'#'),
-    (7,1,NULL,'dashboard',NULL,1,'$SYS/#');
-```
-
 
 <!-- External Links -->
 [pg-promises]:https://github.com/vitaly-t/pg-promise
