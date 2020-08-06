@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS "user" (
 )
 WITH (OIDS=FALSE)
 ;
-CREATE INDEX        "idx_user_name"      ON "user" USING hash ("name");
+CREATE INDEX        "idx_user_name"      ON "user" USING btree ("name");
 CREATE INDEX        "idx_user_type_fk"   ON "user" USING btree ("type_fk") WHERE type_fk <> 0 AND type_fk IS NOT NULL;
 CREATE INDEX        "idx_user_role_fk"   ON "user" USING btree ("role_fk") WHERE role_fk <> 0 AND role_fk IS NOT NULL;
 CREATE INDEX        "idx_user_activated" ON "user" USING hash ("activated");

@@ -6,10 +6,8 @@
         "./lib"
       ]
     }],
-    ["@babel/plugin-proposal-class-properties",{"spec": true}],
-    ["@babel/plugin-transform-runtime", {
-      "regenerator": true
-    }]
+    ["@babel/plugin-proposal-class-properties",{"spec": true}]
+    //["@babel/plugin-transform-runtime", {"regenerator": true }]
   ],
   "presets": [
     ["@babel/preset-env", {

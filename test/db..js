@@ -1,10 +1,10 @@
-import Auth from 'example/dao/Auth'
-import User from 'example/dao/User'
-import UserData from 'example/dao/UserData'
-import UserCredential from 'example/dao/UserCredential'
-import Helper from 'example/Helper'
+import Auth from 'dao/Auth'
+import User from 'dao/User'
+import UserData from 'dao/UserData'
+import UserCredential from 'dao/UserCredential'
+import Helper from 'Helper'
 
-import { pgp } from 'example/index'
+import { pgp } from 'index'
 
 const QueryResultError = pgp.errors.QueryResultError
 

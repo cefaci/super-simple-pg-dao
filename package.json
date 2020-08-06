@@ -9,7 +9,7 @@
     "url": "https://github.com/super-simple-pg-dao.git"
   },
   "scripts": {
-    "clean": "rm -R cjs/*.js && rm -R cjs/*.map && rm -R cjs/packed",
+    "clean": "shx rm -rf cjs/*.js && shx rm -rf cjs/*.map && shx rm -rf cjs/packed",
     "build": "npm run clean && babel lib --out-dir cjs --source-maps",
     "start": "nodemon --experimental-modules --watch examples/app --exec babel-node examples/app.js --trace-warnings --experimental-modules --watch lib --watch examples --env=development",
     "test_mocha": "mocha --opts ./test/mocha.opts",
@@ -33,7 +33,6 @@
     "@babel/plugin-transform-runtime": "^7.10.5",
     "@babel/preset-env": "^7.10.4",
     "@babel/register": "^7.10.5",
-    "@babel/runtime": "^7.10.5",
     "babel-plugin-module-resolver": "^4.0.0",
     "chai": "^4.2.0",
     "eslint": "^7.5.0",
@@ -41,6 +40,7 @@
     "mocha": "^8.0.1",
     "moment": "^2.27.0",
     "nodemon": "^2.0.4",
+    "shx": "^0.3.2",
     "sinon": "^9.0.2"
   },
   "engines": {
@@ -51,6 +51,10 @@
     "/node_modules/*",
     "/log/*"
   ],
+  "jest" : {
+    "moduleFileExtensions": ["js", "jsx"],
+    "moduleDirectories": ["node_modules", "lib", "examples"]
+  },
   "modulePaths": [
     "<rootDir>/lib",
     "<rootDir>/examples"

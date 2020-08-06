@@ -37,7 +37,7 @@ dbPool.on('error', function(error, client) {
  * Init server and test connection:
  */
 // INIT types
-const db_init = async(pgp) => {
+export const db_init = (pgp) => {
   // JSON 
   BigInt.prototype.toJSON = function() { 
     return this.toString() 
@@ -52,9 +52,11 @@ const db_init = async(pgp) => {
   // https://github.com/knex/knex/issues/2094
   pgp.pg.types.setTypeParser(1114, a => a && new Date(a + '+00')) // TIMESTAMP_OID 
 }
-const db_check = async(db) => {
+export const db_check = async(db) => {
   try{
-    return await db.query('SELECT version()').then( data  => { console.info( 'index->db->connect():', data) })
+    let data = await db.one('SELECT version()')
+    console.info( 'index->db->connect():', data)
+    return data ? data.version : null
   } catch(error) { 
     console.error('index->db->connect():', error)
     if(error && (error.code === 'ECONNREFUSED' || error.code === '57P03' || error.code === '57P01')){
@@ -64,7 +66,7 @@ const db_check = async(db) => {
   }
 }
 db_init(pgp)
-db_check(db)
+// db_check(db)
 require('super-simple-pg-dao').init({pgp, db})
 
 // let {DB} = require('db')

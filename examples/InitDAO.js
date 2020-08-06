@@ -68,21 +68,25 @@ class InitDAOClass {
     return new QueryFile(path.join(__dirname, file), {minify: true})
   }
 
-  catchOrInitDB = async(error) => {
+  catchOrInitDB = async(error, drop = false) => {
     // DB not reachable
     if(error && (error.code === 'ECONNREFUSED' || error.code === '57P03')){
       return Promise.reject(error)
     // EMPTY DB
     } else if(error && error.code === '42P01'){
-      console.error('InitDAO->catchAndInitDB(): ERROR: No database! -> Creating DB!') 
-      
-      //let drop = this.sql(SQL_DROP)
-      let schema = this.sql(SQL_SCHEMA)
+      if(drop) {
+        console.info('InitDAO->catchAndInitDB(): Drop and creating DB!') 
+      } else {
+        console.error('InitDAO->catchAndInitDB(): ERROR: No database! -> Creating DB!') 
+      }
+
       try{
         let queries = []
         queries.push('ABORT;')
-        // queries.push(drop)
-        queries.push(schema)
+        if(drop){
+          queries.push(this.sql(SQL_DROP))
+        }
+        queries.push(this.sql(SQL_SCHEMA))
 
         await DB.queryTxBatch(queries) 
         console.log('Creating DATABASE success')
@@ -96,19 +100,23 @@ class InitDAOClass {
     }
   }
 
-  init = async() => {
+  init = async(drop = false) => {
     let data = null
-    let i = 0
-    while (i < 10) {
-      try{
-        data = await User.read({type_fk : TYPE_USER_INIT}, 2)
-        break
-      } catch(error) { 
-        if(error === 'Connection terminated due to connection timeout'){
-          i++
-        } else {
-          await this.catchOrInitDB(error)
+    if(drop){
+      await this.catchOrInitDB({code : '42P01'}, true)
+    } else {
+      let i = 0
+      while (i < 10) {
+        try{
+          data = await User.read({type_fk : TYPE_USER_INIT}, 2)
           break
+        } catch(error) { 
+          if(error === 'Connection terminated due to connection timeout'){
+            i++
+          } else {
+            await this.catchOrInitDB(error)
+            break
+          }
         }
       }
     }
@@ -132,6 +140,7 @@ class InitDAOClass {
       console.error('InitDAO->init(): ERROR: ', error)
       return Promise.reject(error)
     }
+    return data
   }
 }
 
