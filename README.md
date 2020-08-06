@@ -106,6 +106,29 @@ export default User
 ```
 That's it!
 
+## Reads
+```javascript
+import User from 'dao/User'
+const { db} = require('index')
+
+// by name
+let data = await User.read({name: 'test'})
+// more parameters
+data = await User.read({id: 1, name : 'test'})
+// with task
+await db.task('read10timesTask', async t => {
+  data = await User.readTask(t, {name: 'test'})
+}).then(() => {
+  // ...
+})
+// more complex
+data = await User.read({id: {v: [0,data[0].id], t:'::bigint[])', c: '= ANY (', 'OR': {id: data[0].id, type_fk: data[0].type_fk}}, type_fk: 1})
+// more more complex
+data = await User.read({id: {v: [0,data[0].id], t:'::bigint[])', c: '= ANY (', 'OR': {id: {v: data[0].id, c: '=', 'OR': {id: data[0].id, type_fk: data[0].type_fk}}, type_fk: data[0].type_fk}}, type_fk: data[0].type_fk})
+    
+```
+
+
 # TODOs
 - Read the database tables meta data for creating `tables.js` 
 - Read the database tables for creating `dao/*.js` class files.
