@@ -11,3 +11,4 @@ __snapshots__/
 /.eslintcache
 /cjs
 !/cjs/package.json
+/test/coverage
