@@ -34,17 +34,17 @@ DB.test()
 # Init options for pg-promise
 Some options I use (check out the `examples/index.js`):
 ```javascript
-// PostgreSQL jsonb data in converted to a string
+// PostgreSQL jsonb data is converted to a string
 BigInt.prototype.toJSON = function() { 
   return this.toString() 
 }
-// Using PostgreSQL BIGINT in nodejs
+// Using PostgreSQL BigInt and BigInt[] in nodejs
 pgp.pg.types.setTypeParser(20, BigInt) // Type Id 20 = BIGINT | BIGSERIAL
 
 const parseBigIntArray = pgp.pg.types.getTypeParser(1016)
 pgp.pg.types.setTypeParser(1016, a => parseBigIntArray(a).map(BigInt))
 
-// Timestamp UTC error, if you are using default UTC in the PostgreSQL database
+// Timestamp UTC error, if you are using default only UTC in the PostgreSQL database
 // https://github.com/knex/knex/issues/2094
 pgp.pg.types.setTypeParser(1114, a => a && new Date(a + '+00')) // TIMESTAMP_OID
 ```
