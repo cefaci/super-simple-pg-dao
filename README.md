@@ -7,6 +7,9 @@ Super Simple PG DAO
 * [Install](#install)
   - [Init](##init)
   - [Init options for pg-promise](#init-options-for-pg-promise)
+* [Usage](#usage)
+  - [tables.js](#tables.js)
+* [TODOs](#totos)
 
 # About
 Built on top of [pg-promises] and [node-postgres] for PostgreSQL databases. The main objective is easy direct batch inserts from json data, where json fields are optional and data validation is already performed on the nodejs server. "Cascade" inserts for setting foreign keys automatically.
