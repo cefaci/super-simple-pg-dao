@@ -22,8 +22,8 @@ class UserCredentialClass extends DBClass {
 
     let time = (new Date()).toUTCString()
 
-    data.key = Buffer.from(data.key, 'hex')
-    data.salt = Buffer.from(data.salt, 'hex')
+    // data.key = Buffer.from(data.key, 'hex')
+    // data.salt = Buffer.from(data.salt, 'hex')
     
     options.push(Preparation.update_object(TABLE_USER, {updated : time, _where : {id:user_id}}))
     options.push(Preparation.update_object(TABLE_USER_CREDENTIAL, {key: data.key, salt: data.salt, 

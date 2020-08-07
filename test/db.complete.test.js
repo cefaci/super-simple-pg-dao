@@ -277,6 +277,49 @@ describe('DB tests: ', () => {
     console.log('insert "cascade" 1', data)
   })
 
+  test('DB create "cascade"', async() => {
+    const name = 'testINSERTCASCADE::' + new Date().getTime() + '::' +  Math.floor(Math.random() * (888889) + 100000)
+    let salt = Helper.getHash(Buffer.concat([Helper.createRandom(32), Helper.createRandom(32)], 64))
+    let key = Helper.createKey('balalbalalba', salt) // PBKDF2_SHA512_10000_64
+
+    let data = {
+      // USER
+      user_credential: {
+        key : key,
+        type_fk : 2,
+        type_key_fk : 2, // PBKDF2_SHA512_10000_64
+        enabled : true,
+      }, 
+      user_data: {
+        value : {'hello' : 'hello11', 'user' : 'yes11'},
+        type_fk : 2,
+        enabled : true,
+      },  
+      auth : {},
+      user : {
+        name : name,
+        type_fk : 2, // SERVER
+        role_fk : 90, // SUPERADMIN
+        activated : true, 
+        enabled : true,
+        comment : 'server',
+      },
+    } 
+
+    data = await User.create(data)
+    console.log('insert "cascade" 1', data)
+    expect(data).toBeTruthy()
+    expect(data.user[0].id).toBeGreaterThanOrEqual(1)
+    let id = data.user[0].id
+
+    data = await User.read({name: name})
+    expect(data).toBeTruthy()
+    expect(data[0].id).toEqual(id)
+    expect(data[0].name).toBe(name)
+
+    console.log('insert "cascade" 1', data)
+  })
+
   test('DB read PS', async() => {
     const name = 'test'
     const type_id = 1
@@ -384,5 +427,57 @@ describe('DB tests: ', () => {
     expect(data).toBeTruthy()
     expect(data[0][0].id).toBeGreaterThanOrEqual(1)
     expect(data[0][0].name).toBe(name)
+  })
+
+  test('DB read PS complex array auto select creation more AND update', async() => {
+    const name = 'test'
+    const type_id = 1
+    const limit = 2
+
+    const nameQuery = 'user::readSalt::complex::select more'
+
+    let query = User.getQuery(nameQuery)
+    if (!query){
+      query = User.createQuery(nameQuery, {
+        name : nameQuery,
+        // null the key to not show it
+        text : Preparation.select_object({'u':TABLE_USER,'c':TABLE_USER_CREDENTIAL, 'd': TABLE_USER_DATA}, {}, true) + 
+              'WHERE u.id = c.user_fk AND u.id = d.user_fk AND u.name = $1 AND u.type_fk = $2 '+
+              ' AND u.enabled IS TRUE AND u.activated IS TRUE AND c.enabled IS TRUE ORDER BY c.expire DESC NULLS LAST LIMIT $3',
+        rowMode : 'array',
+      })
+    }
+    let data = await DB.query(DB.any, query, [name, type_id, limit], [TABLE_USER, TABLE_USER_CREDENTIAL, TABLE_USER_DATA]) 
+
+    console.log('DB read PS', data)
+
+    expect(data).toBeTruthy()
+    expect(data[0][0].id).toBeGreaterThanOrEqual(1)
+    expect(data[0][0].name).toBe(name)
+
+    // update keys
+    let user_credential_id = data[0][1].id
+    let salt = Helper.getHash(Buffer.concat([Helper.createRandom(32), Helper.createRandom(32)], 64))
+    let newdata = {
+      key : Helper.createKey('newkey', salt),
+      salt : salt,
+      type_fk : 1,
+      type_key_fk : 1,
+    }
+    data = await UserCredential.update_verified(user_credential_id, data[0][0].id, newdata)
+
+    expect(data).toBeTruthy()
+    expect(data[0].id).toEqual(user_credential_id)
+
+    // Re-read and compare key
+    query = User.getQuery(nameQuery)
+    data = await DB.query(DB.any, query, [name, type_id, limit], [TABLE_USER, TABLE_USER_CREDENTIAL, TABLE_USER_DATA]) 
+    expect(data).toBeTruthy()
+    expect(data[0][0].id).toBeGreaterThanOrEqual(1)
+    expect(data[0][0].name).toBe(name)
+
+    expect(newdata.key.equals(data[0][1].key)).toBe(true)
+
+    console.log(data) 
   })
 })

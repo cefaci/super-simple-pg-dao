@@ -36,7 +36,7 @@ class UserClass extends DBClass {
       user_credential : data, 
       auth : {auth : auth.auth},
       user_data : {user_data : user_data.user_data},
-      user : {role_fk : 94, user_fk : 94, activated : false, enabled : false},
+      user : {role_fk : 1, type_fk : 1, activated : false, enabled : false},
     }
     return user
   }
