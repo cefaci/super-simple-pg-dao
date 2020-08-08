@@ -14,7 +14,7 @@ Super Simple PG DAO
   - [Update](#Update)
   - [Delete](#Delete)
   - [Query](#Query)
-  - [Batch insert/update/delete](#batch-insert/update/delete)
+  - [Batch insert/update/delete](#batch-insert-update-delete)
   - [Batch insert "cascade"](#batch-insert-cascade)
 * [TODOs](#totos)
 
