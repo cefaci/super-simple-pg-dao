@@ -103,7 +103,7 @@ class InitDAOClass {
   init = async(drop = false) => {
     let data = null
     if(drop){
-      await this.catchOrInitDB({code : '42P01'}, true)
+      await this.catchOrInitDB({code : '42P01'}, drop)
     } else {
       let i = 0
       while (i < 10) {
@@ -114,7 +114,7 @@ class InitDAOClass {
           if(error === 'Connection terminated due to connection timeout'){
             i++
           } else {
-            await this.catchOrInitDB(error)
+            await this.catchOrInitDB(error, drop)
             break
           }
         }

@@ -12,7 +12,6 @@
     "clean": "shx rm -rf cjs/*.js && shx rm -rf cjs/*.map && shx rm -rf cjs/packed",
     "build": "npm run clean && babel lib --out-dir cjs --source-maps",
     "start": "nodemon --experimental-modules --watch examples/app --exec babel-node examples/app.js --trace-warnings --experimental-modules --watch lib --watch examples --env=development",
-    "test_mocha": "mocha --opts ./test/mocha.opts",
     "prepush": "npm run lint",
     "prepublish": "npm run lint && npm run test && npm run build",
     "lint": "eslint --config .eslintrc lib test --cache",
