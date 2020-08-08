@@ -11,6 +11,7 @@ Super Simple PG DAO
   - [DAO](#dao)
   - [Read](#read)
   - [Insert](#insert)
+  - [Insert Conflicts](#insert-conflicts)
   - [Update](#update)
   - [Delete](#delete)
   - [Query](#query)
@@ -150,6 +151,26 @@ let data = await User.insert({name: 'test'})
 data = await User.insert({name: 'test', updated: 'NOW()'})
 ```
 
+## Insert Conflicts
+Insert ON CONFLICT is possible to
+
+```javascript
+const name = 'test'
+let user = {
+  comment : 'server500',
+  _where : {
+    name : name
+  }
+}
+
+let prepared = User.prepareInsert(user)
+prepared.conflicts.push('name')
+prepared.where = []
+prepared.where.push('enabled IS TRUE AND name IS NOT NULL')
+
+let data = await DB.query(DB.insert, prepared, prepared.values)
+```
+
 ## Update
 Different update examples
 ```javascript
@@ -160,6 +181,18 @@ const { db} = require('index')
 let data = await User.update({comment : '1.1', activated : true, enabled : true, _where : {id : 1, name: 'test'}})
 // more parameters
 data = await User.update({comment : '1.2', name : 'testNEW', activated : true, enabled : true, updated : 'NOW()', _where : {id : data.id, name: 'test'}})
+
+// with prepared
+const name = 'test'
+let user = {
+  comment : 'server500',
+  _where : {
+    name : name
+  }
+}
+
+let prepared = User.prepareUpdate(user)
+let data = await DB.query(DB.update, prepared, prepared.values)
 ```
 
 ## Delete
