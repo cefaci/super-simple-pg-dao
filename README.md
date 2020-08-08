@@ -118,7 +118,7 @@ That's it!
 Different read examples
 ```javascript
 import User from 'dao/User'
-const { db} = require('index')
+const {db} = require('index')
 
 // by name
 let data = await User.read({name: 'test'})
@@ -143,7 +143,7 @@ data = await User.read({id: {v: [0,1], t:'::bigint[])', c: '= ANY (', 'OR': {id:
 Different insert examples
 ```javascript
 import User from 'dao/User'
-const { db} = require('index')
+import {DB} from 'super-simple-pg-dao'
 
 // by name
 let data = await User.insert({name: 'test'})
@@ -155,6 +155,9 @@ data = await User.insert({name: 'test', updated: 'NOW()'})
 Insert ON CONFLICT is possible to
 
 ```javascript
+import User from 'dao/User'
+import {DB} from 'super-simple-pg-dao'
+
 const name = 'test'
 let user = {
   comment : 'server500',
@@ -175,7 +178,7 @@ let data = await DB.query(DB.insert, prepared, prepared.values)
 Different update examples
 ```javascript
 import User from 'dao/User'
-const { db} = require('index')
+import {DB} from 'super-simple-pg-dao'
 
 // by parameters
 let data = await User.update({comment : '1.1', activated : true, enabled : true, _where : {id : 1, name: 'test'}})
@@ -199,7 +202,7 @@ let data = await DB.query(DB.update, prepared, prepared.values)
 Different delete examples
 ```javascript
 import User from 'dao/User'
-const { db} = require('index')
+import {DB} from 'super-simple-pg-dao'
 
 // by name and id
 let data = data = await User.delete({_where : {id : 1, name: 'test'}})
@@ -212,7 +215,7 @@ You can query as you want, the examples here are prepared statements, which are 
 
 ```javascript
 import User from 'dao/User'
-const { db} = require('index')
+import {DB} from 'super-simple-pg-dao'
 
 const name = 'test'
 const type_id = 1
@@ -234,6 +237,9 @@ let data = await DB.query(DB.one, query, [name, type_id, limit])
 ```
 
 ```javascript
+import User from 'dao/User'
+import {DB} from 'super-simple-pg-dao'
+
 const sample = 100
 const name = 'test'
 const type_id = 1
@@ -257,6 +263,9 @@ let data = await DB.query(DB.any, query, [sample, name, type_id, limit], [TABLE_
 ```
 
 ```javascript
+import User from 'dao/User'
+import {DB} from 'super-simple-pg-dao'
+
 const name = 'test'
 const type_id = 1
 const limit = 2
@@ -280,6 +289,9 @@ let data = await DB.query(DB.any, query, [name, type_id, limit], [TABLE_USER, TA
 Create an array with your object data and use `DB.queryTxBatch()` witch uses [pgp.helpers.concat()]
 
 ```javascript
+import {DB} from 'super-simple-pg-dao'
+import Auth from 'dao/Auth'
+
 // queries, options
 let queries = Auth.prepareInsertQueries({})
 for(let i = 0; i < 100; i++){
@@ -293,6 +305,9 @@ The foreign keys are overwritten from `tables.js` set by the field `_id_fk`.
 Then use the method `DB.queryTxBatchStepWithReturnFK()`. The method `DB.queryTxBatch()` doesn't use this function and concatenates with [pgp.helpers.concat()]
 
 ```javascript
+import {DB} from 'super-simple-pg-dao'
+import Helper from 'Helper'
+
 const name = 'test cascade'
 let salt = Helper.getHash(Buffer.concat([Helper.createRandom(32), Helper.createRandom(32)], 64))
 let key = Helper.createKey('balalbalalba', salt) // PBKDF2_SHA512_10000_64
