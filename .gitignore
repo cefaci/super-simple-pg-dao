@@ -1,14 +1,7 @@
 /node_modules
-/temp
-/log
-/files
-!/files/index.html
-!/files/all.html
+.eslintcache
 npm-debug.log
 package-lock.json
-__snapshots__/
-/.vscode
-/.eslintcache
 /cjs
 !/cjs/package.json
 /test/coverage

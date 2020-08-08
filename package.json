@@ -1,17 +1,18 @@
 {
   "name": "super-simple-pg-dao",
   "description": "Super Simple PG DAO",
-  "version": "0.2.0",
+  "version": "0.4.2",
   "main": "app.js",
   "license": "MIT",
+  "homepage": "https://github.com/cefaci/super-simple-pg-dao",
   "repository": {
     "type": "git",
-    "url": "https://github.com/super-simple-pg-dao.git"
+    "url": "https://github.com/cefaci/super-simple-pg-dao.git"
   },
   "scripts": {
     "clean": "shx rm -rf cjs/*.js && shx rm -rf cjs/*.map && shx rm -rf cjs/packed",
     "build": "npm run clean && babel lib --out-dir cjs --source-maps",
-    "start": "nodemon --experimental-modules --watch examples/app --exec babel-node examples/app.js --trace-warnings --experimental-modules --watch lib --watch examples --env=development",
+    "start": "nodemon --watch examples/app --exec babel-node examples/app.js --trace-warnings --watch lib --watch examples --env=development",
     "prepush": "npm run lint",
     "prepublish": "npm run lint && npm run test && npm run build",
     "lint": "eslint --config .eslintrc lib test --cache",
@@ -46,6 +47,7 @@
     "pg-promise",
     "postgres",
     "dao",
+    "insert",
     "cascade"
   ],
   "eslintIgnore": [
@@ -56,12 +58,5 @@
   "modulePaths": [
     "<rootDir>/lib",
     "<rootDir>/examples"
-  ],
-  "contributors": [
-    {
-      "name": "cefaci",
-      "email": "25903524+cefaci@users.noreply.github.com",
-      "url": "https://github.com/super-simple-pg-dao"
-    }
   ]
 }

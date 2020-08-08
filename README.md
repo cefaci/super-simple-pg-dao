@@ -5,15 +5,16 @@ Super Simple PG DAO
 
 * [About](#about)
 * [Install](#install)
-  - [Init](##init)
+  - [Init](#init)
   - [Init options for pg-promise](#init-options-for-pg-promise)
 * [Usage](#usage)
   - [DAO](#dao)
-  - [Read](#Read)
-  - [Insert](#Insert)
-  - [Update](#Update)
-  - [Delete](#Delete)
-  - [Query](#Query)
+  - [Read](#read)
+  - [Insert](#insert)
+  - [Update](#update)
+  - [Delete](#delete)
+  - [Query](#query)
+  - [Batch insert/update/delete/read](#batch-insert-update-delete-read)
   - [Batch insert "cascade"](#batch-insert-cascade)
 * [TODOs](#totos)
 
@@ -242,9 +243,21 @@ if (!query){
 let data = await DB.query(DB.any, query, [name, type_id, limit], [TABLE_USER, TABLE_USER_CREDENTIAL, TABLE_USER_DATA]) 
 ```
 
+## Batch insert/update/delete/read
+Create an array with your object data and use `DB.queryTxBatch()` witch uses [pgp.helpers.concat()]
+
+```javascript
+// queries, options
+let queries = Auth.prepareInsertQueries({})
+for(let i = 0; i < 100; i++){
+  queries.push(Auth.prepareInsert())
+}
+data = await DB.queryTxBatch(queries)
+```
+
 ## Batch insert "cascade"
 The foreign keys are overwritten from `tables.js` set by the field `_id_fk`.
-Then use the method `DB.queryTxBatchStepWithReturnFK()`. The method `DB.queryTxBatch()` doesn't use this function and concatenates with `pgp.helpers.concat()`
+Then use the method `DB.queryTxBatchStepWithReturnFK()`. The method `DB.queryTxBatch()` doesn't use this function and concatenates with [pgp.helpers.concat()]
 
 ```javascript
 const name = 'test cascade'
@@ -265,7 +278,7 @@ let data = {
     enabled : true,
   },  
   auth : {},
-    user : {
+  user : {
     name : name,
     type_fk : 2, // SERVER
     role_fk : 90, // SUPERADMIN
@@ -292,4 +305,5 @@ data = await DB.queryTxBatchStepWithReturnFK(queries)
 <!-- External Links -->
 [pg-promises]:https://github.com/vitaly-t/pg-promise
 [node-postgres]:https://github.com/brianc/node-postgres
+[pgp.helpers.concat()]:https://vitaly-t.github.io/pg-promise/helpers.html#.concat
 
