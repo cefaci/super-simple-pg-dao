@@ -72,8 +72,9 @@ class InitDAOClass {
     }
   }
 
-  sql(file) {
-    return new QueryFile(path.join(__dirname, file), {minify: true})
+  sql(file, options = {minify: true}) {
+    const filepath = path.join(__dirname, file)
+    return new QueryFile(filepath, options)
   }
 
   catchOrInitDB = async(error, drop = false) => {

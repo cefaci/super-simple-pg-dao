@@ -34,6 +34,11 @@ class UserClass extends DBClass {
     return prepared
   }
 
+  prepareInsert(data = {}, default_value = true){
+    if(typeof data.type_fk      === 'undefined') data.type_fk = 1
+    return super.prepareInsert(data, default_value)
+  }
+
   prepareCreateUser(data, auth, user_data){
     console.log('prepareCreateUser', data)
 

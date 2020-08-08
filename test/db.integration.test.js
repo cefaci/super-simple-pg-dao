@@ -47,7 +47,7 @@ describe('DB tests: ', () => {
     expect(data[0].name).toBe('test')
   }, 30000)
 
-  test.skip('DB init drop & create', async() => {
+  test('DB init drop & create', async() => {
     let data = await InitDAO.init(true)
 
     expect(data).toBeTruthy()
@@ -91,7 +91,7 @@ describe('DB tests: ', () => {
       expect(data[0].id).toBeGreaterThanOrEqual(1)
       expect(data[0].name).toBe('test')
     }
-  })
+  }, 30000)
 
   test('DB read user test 10 times TASK', async(done) => {
     await db.task('read10timesTask', async t => {
@@ -109,7 +109,7 @@ describe('DB tests: ', () => {
     }).then(() => {
       done()
     })
-  })
+  }, 30000)
 
   test('DB read user complex', async(done) => {
     let data = await User.read({name: 'test'})
@@ -166,7 +166,7 @@ describe('DB tests: ', () => {
     }).then(() => {
       done()
     })
-  })
+  }, 30000)
 
   test('DB insert user', async() => {
     const name = 'test::' + new Date().getTime() + '::' +  Math.floor(Math.random() * (888889) + 100000)
@@ -233,7 +233,73 @@ describe('DB tests: ', () => {
     expect(data.id).toEqual(id)
 
     console.log('insert/delete 2', data)
-  })
+  }, 30000)
+
+  test('DB insert conflict same UNIQUE user FAIL', async() => {
+    const name = 'test'
+    let user = {
+      name : name,
+      type_fk : 1, // SERVER
+      role_fk : 90, // SUPERADMIN
+      activated : true, 
+      enabled : true,
+      comment : 'server',
+    }
+    await expect(User.insert(user)).rejects.toThrow()
+  }, 10000)
+
+  test('DB insert conflict same UNIQUE user SUCCESS', async() => {
+    const name = 'test'
+    let user = {
+      name : name,
+      type_fk : 100, // SERVER
+      role_fk : 200, // SUPERADMIN
+      activated : true, 
+      enabled : true,
+      comment : 'server300',
+    }
+
+    let prepared = User.prepareInsert(user)
+    prepared.conflicts.push('name')
+    prepared.where = []
+    prepared.where.push('enabled IS TRUE AND name IS NOT NULL')
+
+    let data = await DB.query(DB.insert, prepared, prepared.values)
+    console.log(data)
+    expect(data).toBeTruthy()
+
+    let dataRead = await User.read({name: name})
+    expect(dataRead).toBeTruthy()
+    expect(dataRead[0].name).toBe(name)
+
+    expect(dataRead[0].id).toBe(data.id)
+  }, 10000)
+
+
+  test('DB update same UNIQUE user SUCCESS', async() => {
+    const name = 'test'
+    let user = {
+      type_fk : 1, // SERVER
+      role_fk : 300, // SUPERADMIN
+      activated : true, 
+      enabled : true,
+      comment : 'server500',
+      _where : {
+        name : name
+      }
+    }
+
+    let prepared = User.prepareUpdate(user)
+    let data = await DB.query(DB.update, prepared, prepared.values)
+    console.log(data)
+    expect(data).toBeTruthy()
+
+    let dataRead = await User.read({name: name})
+    expect(dataRead).toBeTruthy()
+    expect(dataRead[0].name).toBe(name)
+
+    expect(dataRead[0].id).toBe(data.id)
+  }, 10000)
 
   test('DB insert "cascade"', async() => {
     const name = 'testINSERTCASCADE::' + new Date().getTime() + '::' +  Math.floor(Math.random() * (888889) + 100000)
@@ -283,7 +349,7 @@ describe('DB tests: ', () => {
     expect(data[0].name).toBe(name)
 
     console.log('insert "cascade" 1', data)
-  })
+  }, 30000)
 
   test('DB create "cascade"', async() => {
     const name = 'testINSERTCASCADE::' + new Date().getTime() + '::' +  Math.floor(Math.random() * (888889) + 100000)
@@ -326,7 +392,7 @@ describe('DB tests: ', () => {
     expect(data[0].name).toBe(name)
 
     console.log('insert "cascade" 1', data)
-  })
+  }, 30000)
 
   test('DB read PS', async() => {
     const name = 'test'
@@ -408,7 +474,7 @@ describe('DB tests: ', () => {
     expect(data).toBeTruthy()
     expect(data[0][0].id).toBeGreaterThanOrEqual(1)
     expect(data[0][0].name).toBe(name)
-  })
+  }, 30000)
 
   test('DB read PS complex array auto select creation more', async() => {
     const name = 'test'
