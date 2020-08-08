@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2016-present, cefaci <25903524+cefaci@users.noreply.github.com>
+ *
+ * See the LICENSE file at the top-level directory of this distribution
+ * for licensing information.
+ *
+ * Removal or modification of this copyright notice is prohibited.
+ */
 // https://vitaly-t.github.io/pg-promise/module-pg-promise.html
 const DURATION_MS = 100
 const production = process.env.NODE_ENV === 'production'

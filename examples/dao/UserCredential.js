@@ -1,9 +1,16 @@
+/*
+ * Copyright (c) 2016-present, cefaci <25903524+cefaci@users.noreply.github.com>
+ *
+ * See the LICENSE file at the top-level directory of this distribution
+ * for licensing information.
+ *
+ * Removal or modification of this copyright notice is prohibited.
+ */
 import { 
   TABLE_USER_CREDENTIAL,
   TABLE_USER,
 } from '../tables'
 
-import crypto from 'crypto'
 import { Preparation, DB, DBClass } from 'super-simple-pg-dao'
 import Helper from 'Helper'
 

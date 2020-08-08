@@ -1,6 +1,14 @@
+/*
+ * Copyright (c) 2016-present, cefaci <25903524+cefaci@users.noreply.github.com>
+ *
+ * See the LICENSE file at the top-level directory of this distribution
+ * for licensing information.
+ *
+ * Removal or modification of this copyright notice is prohibited.
+ */
 import Auth from 'dao/Auth'
 import User from 'dao/User'
-import UserData from 'dao/UserData'
+// import UserData from 'dao/UserData'
 import UserCredential from 'dao/UserCredential'
 import Helper from 'Helper'
 import { 

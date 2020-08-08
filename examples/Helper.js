@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2016-present, cefaci <25903524+cefaci@users.noreply.github.com>
+ *
+ * See the LICENSE file at the top-level directory of this distribution
+ * for licensing information.
+ *
+ * Removal or modification of this copyright notice is prohibited.
+ */
 import crypto from 'crypto'
 
 const MAX_UINTEGER = parseInt( Buffer.from([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]).toString('hex'), 16) // Buffer.from([0xff, 0xff, 0xff, 0xff, 0xff, 0xff]).readUIntBE(0, 6)
