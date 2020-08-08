@@ -1,12 +1,13 @@
 {
   "name": "super-simple-pg-dao",
   "description": "Super Simple PG DAO",
-  "version": "0.2.0",
+  "version": "0.4.2",
   "main": "app.js",
   "license": "MIT",
+  "homepage": "https://github.com/cefaci/super-simple-pg-dao",
   "repository": {
     "type": "git",
-    "url": "https://github.com/super-simple-pg-dao.git"
+    "url": "https://github.com/cefaci/super-simple-pg-dao.git"
   },
   "scripts": {
     "clean": "shx rm -rf cjs/*.js && shx rm -rf cjs/*.map && shx rm -rf cjs/packed",
@@ -47,6 +48,7 @@
     "pg-promise",
     "postgres",
     "dao",
+    "insert",
     "cascade"
   ],
   "eslintIgnore": [
@@ -57,12 +59,5 @@
   "modulePaths": [
     "<rootDir>/lib",
     "<rootDir>/examples"
-  ],
-  "contributors": [
-    {
-      "name": "cefaci",
-      "email": "25903524+cefaci@users.noreply.github.com",
-      "url": "https://github.com/super-simple-pg-dao"
-    }
   ]
 }
