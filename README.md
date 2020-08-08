@@ -301,8 +301,8 @@ data = await DB.queryTxBatch(queries)
 ```
 
 ## Batch insert "cascade"
-The foreign keys are overwritten from `tables.js` set by the field `_id_fk`.
-Then use the method `DB.queryTxBatchStepWithReturnFK()`. The method `DB.queryTxBatch()` doesn't use this function and concatenates with [pgp.helpers.concat()]
+The foreign keys are step by step overwritten from the defined field `_id_fk` set in table defintion of `tables.js`.
+With the method `DB.queryTxBatchStepWithReturnFK()` you can use this functionality otherwise use the method `DB.queryTxBatch()` which doesn't set the previous returned foreign keys and concatenates with [pgp.helpers.concat()]
 
 ```javascript
 import {DB} from 'super-simple-pg-dao'
