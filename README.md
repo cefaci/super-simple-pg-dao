@@ -14,7 +14,7 @@ Super Simple PG DAO
   - [Update](#Update)
   - [Delete](#Delete)
   - [Query](#Query)
-  - [Batch insert](#batch-insert)
+  - [Batch insert/update/delete](#batch-insert/update/delete)
   - [Batch insert "cascade"](#batch-insert-cascade)
 * [TODOs](#totos)
 
@@ -243,7 +243,7 @@ if (!query){
 let data = await DB.query(DB.any, query, [name, type_id, limit], [TABLE_USER, TABLE_USER_CREDENTIAL, TABLE_USER_DATA]) 
 ```
 
-## Batch insert 
+## Batch insert/update/delete 
 Create an array with your object data and use `DB.queryTxBatch()` witch uses [pgp.helpers.concat()]
 
 ```javascript
