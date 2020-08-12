@@ -6,6 +6,8 @@
  *
  * Removal or modification of this copyright notice is prohibited.
  */
+const DROP_DATABASE = false // set to true to recreate all
+
 import Auth from 'dao/Auth'
 import User from 'dao/User'
 // import UserData from 'dao/UserData'
@@ -41,7 +43,7 @@ describe('DB tests: ', () => {
   })
 
   test('DB init check', async() => {
-    let data = await InitDAO.init()
+    let data = await InitDAO.init(DROP_DATABASE)
 
     expect(data).toBeTruthy()
     expect(data[0].name).toBe('test')
