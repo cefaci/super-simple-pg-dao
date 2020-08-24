@@ -1,0 +1,81 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true,
+    "mocha": true,
+    "mongo": true,
+    "node": true,
+    "jasmine": true 
+  },
+  "extends": [
+    "eslint:recommended"
+    // "plugin:react/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion ": 2018,
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "globals":{
+    "BigInt": true
+  },
+  "parser": "@babel/eslint-parser",
+  "rules": {
+    "indent": ["error", 2, 
+      { "SwitchCase": 1, 
+        "VariableDeclarator": { "var": 2, "let": 2, "const": 3 },
+        "MemberExpression": 1,
+        "flatTernaryExpressions": true,
+        "FunctionExpression": {"body": 1, "parameters": "first"},
+        "FunctionDeclaration": {"body": 1, "parameters": "first"},
+        "ObjectExpression": "first",
+        "ArrayExpression": "first",
+        "CallExpression": {"arguments": "first"}
+      }
+    ],
+    "linebreak-style": ["error", "unix"],
+    "quotes": [2, "single"],
+    "semi": ["error", "never"],
+    "no-undef": 2,
+    "strict": 0,
+    "curly": [2, "multi-line"],
+    "no-use-before-define": [2, "nofunc"],
+    "no-unused-vars": [1, "all"],
+    "no-mixed-requires": [1, true],
+    "max-depth": [1, 5],
+    "max-len": [1, 1000, 4],
+    "max-params": [1, 6],
+    "max-statements": [1, 40],
+    "eqeqeq": 0,
+    "new-cap": 0,
+    "no-else-return": 1,
+    "no-eq-null": 1,
+    "no-lonely-if": 1,
+    "no-path-concat": 0,
+    "comma-dangle": ["error", {
+      "arrays": "only-multiline",
+      "objects": "only-multiline",
+      "imports": "only-multiline",
+      "exports": "only-multiline",
+      "functions": "only-multiline"
+    }],
+    "no-cond-assign": ["error", "always"],
+    "no-console": "off",// disable rules from base configurations
+    "complexity": [1, 23],
+    "no-floating-decimal": 1,
+    "no-void": 1,
+    "no-sync": 0,
+    "no-useless-catch": 0,
+    "no-useless-escape": 0,
+    "consistent-this": [1, "nope-dont-capture-this"],
+    "max-nested-callbacks": [2, 4],
+    "no-nested-ternary": 1,
+    "keyword-spacing": 0,
+    "space-before-function-paren": [1, "never"],
+    "spaced-comment": [1, "always"]
+  }
+}
