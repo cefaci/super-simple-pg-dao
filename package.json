@@ -1,8 +1,8 @@
 {
   "name": "super-simple-pg-dao",
   "description": "Super Simple PG DAO",
-  "version": "0.4.3",
-  "main": "app.js",
+  "version": "0.4.5",
+  "main": "cjs/super-simple-pg-dao.js",
   "license": "MIT",
   "homepage": "https://github.com/cefaci/super-simple-pg-dao",
   "repository": {
