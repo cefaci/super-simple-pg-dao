@@ -1,8 +1,8 @@
 {
   "name": "super-simple-pg-dao",
   "description": "Super Simple PG DAO",
-  "version": "0.4.3",
-  "main": "app.js",
+  "version": "0.4.5",
+  "main": "cjs/super-simple-pg-dao.js",
   "license": "MIT",
   "homepage": "https://github.com/cefaci/super-simple-pg-dao",
   "repository": {
@@ -22,18 +22,18 @@
     "coveralls": "npm run coverage && cat ./test/coverage/lcov.info | coveralls"
   },
   "dependencies": {
-    "pg-promise": "^10.5.8"
+    "pg-promise": "^10.6.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
-    "@babel/core": "^7.10.5",
-    "@babel/eslint-parser": "^7.11.0",
+    "@babel/core": "^7.11.4",
+    "@babel/eslint-parser": "^7.11.4",
     "@babel/node": "^7.10.5",
     "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
     "babel-plugin-module-resolver": "^4.0.0",
-    "eslint": "^7.5.0",
-    "jest": "^26.2.2",
+    "eslint": "^7.7.0",
+    "jest": "^26.4.2",
     "moment": "^2.27.0",
     "nodemon": "^2.0.4",
     "shx": "^0.3.2"
