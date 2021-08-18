@@ -24,11 +24,11 @@ import {DB, Preparation} from 'super-simple-pg-dao'
 import InitDAO from 'InitDAO'
 
 describe('DB tests: ', () => {
-  beforeAll(async(done) => {
+  beforeAll(async() => {
     let version = await db_check(db)
 
     expect(version).not.toBeNull()
-    done()
+    return true
   })
   afterAll(done => {
     done(pgp.end())
@@ -95,8 +95,8 @@ describe('DB tests: ', () => {
     }
   }, 30000)
 
-  test('DB read user test 10 times TASK', async(done) => {
-    await db.task('read10timesTask', async t => {
+  test('DB read user test 10 times TASK', async() => {
+    return await db.task('read10timesTask', async t => {
       let data = null
     
       for(let i = 0; i < 10; i++){
@@ -108,12 +108,10 @@ describe('DB tests: ', () => {
         expect(data[0].name).toBe('test')
       }
       return data
-    }).then(() => {
-      done()
     })
   }, 30000)
 
-  test('DB read user complex', async(done) => {
+  test('DB read user complex', async() => {
     let data = await User.read({name: 'test'})
     
     expect(data).toBeTruthy()
@@ -137,11 +135,11 @@ describe('DB tests: ', () => {
     expect(data[0].id).toBeGreaterThanOrEqual(1)
     expect(data[0].name).toBe('test')
     
-    done()
+    return true
   })
 
-  test('DB read user complex TASK', async(done) => {
-    await db.task('read10timesTask', async t => {
+  test('DB read user complex TASK', async() => {
+    return await db.task('read10timesTask', async t => {
       let data = await User.readTask(t, {name: 'test'})
       
       expect(data).toBeTruthy()
@@ -164,9 +162,8 @@ describe('DB tests: ', () => {
       expect(data[0]).toBeTruthy()
       expect(data[0].id).toBeGreaterThanOrEqual(1)
       expect(data[0].name).toBe('test')
-    
-    }).then(() => {
-      done()
+      
+      return true
     })
   }, 30000)
 
